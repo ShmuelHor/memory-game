@@ -11,7 +11,7 @@ const GameApp: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [reset, setReset] = useState<boolean>(false);
   const [attempts, setAttempts] = useState<number>(0);
-  const [isGameOver, setIsGameOver] = useState<boolean>(false); 
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   const startNewGame = () => {
     setIsGameStarted(false);
@@ -19,7 +19,7 @@ const GameApp: React.FC = () => {
     setMixedCards([]);
     setActiveCards([]);
     setAttempts(0);
-    setIsGameOver(false); 
+    setIsGameOver(false);
     setReset(true);
     setTimeout(() => {
       setReset(false);
@@ -57,28 +57,22 @@ const GameApp: React.FC = () => {
     const [firstCard] = activeCards;
     if (firstCard.image === newCard.image) {
       setTimeout(() => {
-        setMixedCards((prev) =>
-          prev.filter((card) => card.image !== firstCard.image)
+        setMixedCards(
+          mixedCards.map((card) => {
+            return card.image === firstCard.image
+              ? { ...card, ifFind: true }
+              : card;
+          })
         );
         setActiveCards([]);
 
         if (mixedCards.length === 2) {
-          setIsGameOver(true); 
+          setIsGameOver(true);
         }
       }, 1750);
     } else {
-      setTimeout(() => resetActiveCards(), 2000);
+      setTimeout(() => setActiveCards([]), 2000);
     }
-  };
-
-  const resetActiveCards = () => {
-    setMixedCards((prev) =>
-      prev.map((card) => ({
-        ...card,
-        active: false,
-      }))
-    );
-    setActiveCards([]);
   };
 
   return (

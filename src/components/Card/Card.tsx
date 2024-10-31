@@ -13,7 +13,7 @@ const Card: React.FC<CardProps> = ({ card, IfActiveCard }) => {
   };
 
   return (
-    <div className="card" onClick={handleClick}>
+    <div className="card" onClick={()=>{card.ifFind && handleClick}}>
       {card.active ? (
         <img src={card.image} alt={`Card with image ${card.image}`} />
       ) : (
