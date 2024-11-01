@@ -1,4 +1,4 @@
-import React, { act, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import GameCards from "../GameCards/GameCards";
 import "./GameApp.css";
 import { MemoryCard, memoryCards } from "../../data/datd";
