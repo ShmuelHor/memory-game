@@ -14,10 +14,10 @@ const Card: React.FC<CardProps> = ({ card, IfActiveCard }) => {
 
   return (
     <div
-      style={{ border: card.ifFind ? "2px solid #6B8E23" : " "  }}
+      style={{ border: card.ifFind ? "2px solid #6B8E23" : " " }}
       className={card.ifFind ? "card-find" : "card"}
       onClick={() => {
-        !card.ifFind ? handleClick():null ;
+        !card.ifFind ? handleClick() : null;
       }}
     >
       {card.active ? (

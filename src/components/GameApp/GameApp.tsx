@@ -100,7 +100,7 @@ const GameApp: React.FC = () => {
     const minutes = Math.floor(elapsed / 60);
     const seconds = Math.floor(elapsed % 60);
     return { minutes, seconds };
-};
+  };
   return (
     <div className="gameApp">
       <h1>Welcome {username} to the Game!</h1>
@@ -113,7 +113,12 @@ const GameApp: React.FC = () => {
       ) : isGameOver ? (
         <div className="game-over">
           <h2>You Wen!</h2>
-          {<p>Your finish in: {calculateElapsedTime().minutes} minutes and {calculateElapsedTime().seconds} seconds</p>}
+          {
+            <p>
+              Your finish in: {calculateElapsedTime().minutes} minutes and{" "}
+              {calculateElapsedTime().seconds} seconds
+            </p>
+          }
           <p>Total Attempts: {attempts}</p>
           <button onClick={startNewGame}>Play Again</button>
         </div>
