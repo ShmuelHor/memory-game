@@ -12,6 +12,32 @@
     transition: transform 0.2s;
     cursor: pointer;
 }
+.card-find {
+    box-shadow: 6px rgba(0, 128, 0, 0.6); /* הצללה ירוקה */
+    width: 80px; /* אותו רוחב כמו הכרטיס הרגיל */
+    height: 120px; /* אותו גובה כמו הכרטיס הרגיל */
+    padding: 2px;
+    margin: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #d4edda; /* צבע רקע ירוק בהיר */
+    transition: box-shadow 0.2s; /* מעבר חלק להצללה */
+    cursor: pointer;
+}
+
+.card-find::before {
+    content: '';
+    position: absolute;
+    top: -4px; /* מיקום ההצללה */
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 128, 0, 0.6); /* הצללה חיצונית */
+    z-index: -1; /* שומר על הכרטיס בקדמת הסדר */
+}
 
 .card-back {
     display: flex;

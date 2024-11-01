@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Card.css";
 import { MemoryCard } from "../../data/datd";
 
@@ -13,7 +13,13 @@ const Card: React.FC<CardProps> = ({ card, IfActiveCard }) => {
   };
 
   return (
-    <div className="card" onClick={()=>{card.ifFind && handleClick}}>
+    <div
+      style={{ border: card.ifFind ? "2px solid #6B8E23" : " "  }}
+      className={card.ifFind ? "card-find" : "card"}
+      onClick={() => {
+        !card.ifFind ? handleClick():null ;
+      }}
+    >
       {card.active ? (
         <img src={card.image} alt={`Card with image ${card.image}`} />
       ) : (

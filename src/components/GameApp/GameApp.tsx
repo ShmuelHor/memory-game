@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import GameCards from "../GameCards/GameCards";
 import "./GameApp.css";
 import { MemoryCard, memoryCards } from "../../data/datd";
 import HomePage from "../HomePage/HomePage";
+let listCards: MemoryCard[] = [];
 
 const GameApp: React.FC = () => {
   const [mixedCards, setMixedCards] = useState<MemoryCard[]>([]);
@@ -13,9 +14,14 @@ const GameApp: React.FC = () => {
   const [attempts, setAttempts] = useState<number>(0);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
+  useEffect(() => {
+    listCards = [...memoryCards];
+    console.log("first");
+  }, []);
+
   const startNewGame = () => {
     setIsGameStarted(false);
-    setUsername("");
+    setUsername(username ? username : "");
     setMixedCards([]);
     setActiveCards([]);
     setAttempts(0);
@@ -23,13 +29,14 @@ const GameApp: React.FC = () => {
     setReset(true);
     setTimeout(() => {
       setReset(false);
-    }, 1);
+    }, 10);
   };
 
   const startGame = (username: string, cardNumber: string) => {
     setUsername(username);
-    const newList = memoryCards.slice(0, parseInt(cardNumber, 10));
+    const newList: MemoryCard[] = listCards.slice(0, parseInt(cardNumber, 10));
     setMixedCards(shuffleArray(newList));
+    resetActiveCards();
     setIsGameStarted(true);
   };
 
@@ -57,29 +64,44 @@ const GameApp: React.FC = () => {
     const [firstCard] = activeCards;
     if (firstCard.image === newCard.image) {
       setTimeout(() => {
-        setMixedCards(
-          mixedCards.map((card) => {
+        setMixedCards((prev) =>
+          prev.map((card) => {
             return card.image === firstCard.image
               ? { ...card, ifFind: true }
               : card;
           })
         );
         setActiveCards([]);
-
-        if (mixedCards.length === 2) {
+        const cardsNotFind = mixedCards.filter((card) => !card.ifFind);
+        if (cardsNotFind.length === 2) {
           setIsGameOver(true);
         }
       }, 1750);
     } else {
-      setTimeout(() => setActiveCards([]), 2000);
+      setTimeout(() => resetActiveCards(), 2000);
     }
+  };
+
+  const resetActiveCards = () => {
+    setMixedCards((prev) =>
+      prev.map((card) => {
+        return card.ifFind === true
+          ? { ...card, active: true }
+          : { ...card, active: false };
+      })
+    );
+    setActiveCards([]);
   };
 
   return (
     <div className="gameApp">
       <h1>Welcome {username} to the Game!</h1>
       {!reset && !isGameStarted ? (
-        <HomePage aa={startGame} />
+        <HomePage
+          startGame={startGame}
+          userName={username}
+          setUsername={setUsername}
+        />
       ) : isGameOver ? (
         <div className="game-over">
           <h2>You Wen!</h2>

@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
-import './HomePage.css'; 
+import React, { useState } from "react";
+import "./HomePage.css";
 
 interface GameAppProps {
-  aa: (username: string, cardNumber: string) => void;
+  startGame: (username: string, cardNumber: string) => void;
+  userName: string;
+  setUsername: (username: string) => void;
 }
 
-const HomePage: React.FC<GameAppProps> = ({ aa }) => {
-  const [formData, setFormData] = useState<{ username: string; selectedNumber: string }>({
-    username: '',
-    selectedNumber: '',
+const HomePage: React.FC<GameAppProps> = ({
+  startGame,
+  userName,
+  setUsername,
+}) => {
+  const [formData, setFormData] = useState<{
+    username: string;
+    selectedNumber: string;
+  }>({
+    username: userName ? userName : "",
+    selectedNumber: "",
   });
-  const [isGameStarted, setIsGameStarted] = useState<boolean>(false); 
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -22,23 +33,29 @@ const HomePage: React.FC<GameAppProps> = ({ aa }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    aa(formData.username, formData.selectedNumber);
-    setIsGameStarted(true); 
+    startGame(formData.username, formData.selectedNumber);
+    setIsGameStarted(true);
   };
 
   return (
     <div className="container">
-      {!isGameStarted && ( 
+      {!isGameStarted && (
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            required
-          />
+          {!userName ? (
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Enter your name"
+              required
+            />
+          ) : (
+            <button className="new-user-button" onClick={() => setUsername("")}>
+              New User
+            </button>
+          )}
           <select
             name="selectedNumber"
             id="options"
