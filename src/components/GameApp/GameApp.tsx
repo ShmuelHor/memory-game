@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GameCards from "../GameCards/GameCards";
 import "./GameApp.css";
 import { MemoryCard, memoryCards } from "../../data/datd";
@@ -13,6 +13,7 @@ const GameApp: React.FC = () => {
   const [reset, setReset] = useState<boolean>(false);
   const [attempts, setAttempts] = useState<number>(0);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const time = useRef<number>(0);
 
   useEffect(() => {
     listCards = [...memoryCards];
@@ -27,6 +28,7 @@ const GameApp: React.FC = () => {
     setAttempts(0);
     setIsGameOver(false);
     setReset(true);
+    time.current = 0;
     setTimeout(() => {
       setReset(false);
     }, 1);
@@ -38,6 +40,7 @@ const GameApp: React.FC = () => {
     setMixedCards(shuffleArray(newList));
     resetActiveCards();
     setIsGameStarted(true);
+    time.current = Date.now();
   };
 
   function shuffleArray(array: MemoryCard[]) {
@@ -92,7 +95,12 @@ const GameApp: React.FC = () => {
     );
     setActiveCards([]);
   };
-
+  const calculateElapsedTime = () => {
+    const elapsed = (Date.now() - time.current) / 1000;
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = Math.floor(elapsed % 60);
+    return { minutes, seconds };
+};
   return (
     <div className="gameApp">
       <h1>Welcome {username} to the Game!</h1>
@@ -105,6 +113,7 @@ const GameApp: React.FC = () => {
       ) : isGameOver ? (
         <div className="game-over">
           <h2>You Wen!</h2>
+          {<p>Your finish in: {calculateElapsedTime().minutes} minutes and {calculateElapsedTime().seconds} seconds</p>}
           <p>Total Attempts: {attempts}</p>
           <button onClick={startNewGame}>Play Again</button>
         </div>
