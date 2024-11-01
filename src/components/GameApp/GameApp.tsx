@@ -29,7 +29,7 @@ const GameApp: React.FC = () => {
     setReset(true);
     setTimeout(() => {
       setReset(false);
-    }, 10);
+    }, 1);
   };
 
   const startGame = (username: string, cardNumber: string) => {
