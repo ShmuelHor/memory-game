@@ -112,7 +112,7 @@ const GameApp: React.FC = () => {
         />
       ) : isGameOver ? (
         <div className="game-over">
-          <h2>You Wen!</h2>
+          <h2>You won !</h2>
           {
             <p>
               Your finish in: {calculateElapsedTime().minutes} minutes and{" "}
